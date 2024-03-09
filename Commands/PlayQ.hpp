@@ -30,7 +30,7 @@ namespace discord_core_api {
 
 		void execute(const base_function_arguments& argsNew) {
 			try {
-				channel_cache_data channel{ argsNew.getChannelData() };
+				channel_data channel{ argsNew.getChannelData() };
 
 				guild_data guild{ argsNew.getInteractionData().guildId };
 				discord_guild discordGuild{ guild };
@@ -41,7 +41,7 @@ namespace discord_core_api {
 					return;
 				}
 
-				guild_member_cache_data guildMember{ argsNew.getGuildMemberData() };
+				guild_member_data guildMember{ argsNew.getGuildMemberData() };
 
 				bool doWeHaveControl = checkIfWeHaveControl(argsNew.getInputEventData(), discordGuild, guildMember);
 
@@ -143,8 +143,8 @@ namespace discord_core_api {
 				}
 
 				uint64_t trackNumber{};
-				if (argsNew.getCommandArguments().values["tracknumber"].value.operator jsonifier::string() != "") {
-					trackNumber = argsNew.getCommandArguments().values["tracknumber"].value.operator size_t() - 1;
+				if (argsNew.getCommandArguments().values["tracknumber"].operator jsonifier::string() != "") {
+					trackNumber = argsNew.getCommandArguments().values["tracknumber"].operator size_t() - 1;
 				}
 
 				if (trackNumber >= discordGuild.data.playlist.songQueue.size()) {
@@ -178,7 +178,7 @@ namespace discord_core_api {
 				auto theTask   = [=](song_completion_event_data eventData) mutable -> co_routine<void, false> {
 					  auto argsNewer = std::move(argsNew);
 					  co_await newThreadAwaitable<void, false>();
-					  user_cache_data userNew = users::getCachedUser({ eventData.guildMemberId });
+					  user_data userNew = users::getCachedUser({ eventData.guildMemberId });
 					  std::this_thread::sleep_for(150ms);
 					  discordGuild.getDataFromDB();
 					  if (discordGuild.data.playlist.songQueue.size()) {
