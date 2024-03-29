@@ -24,7 +24,7 @@ discord_core_api::co_routine<void> onGuildCreation(discord_core_api::on_guild_cr
 #include <fstream>
 
 uint64_t main() {
-	std::fstream fileNew{ "c:/users/chris/desktop/newTxt.txt", std::ios::binary | std::ios::out };
+	std::fstream fileNew{ "c:/users/loki_/desktop/newTxt.txt", std::ios::binary | std::ios::out };
 	jsonifier::string botToken = "";
 	jsonifier::vector<discord_core_api::repeated_function_data> functionVector{};
 	functionVector.reserve(5);
